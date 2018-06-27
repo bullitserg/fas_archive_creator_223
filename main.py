@@ -21,7 +21,6 @@ RELEASE_DATE = '2018-06-27'
 DATA_PROCESSED = 0
 
 work_dir = normpath(work_dir)
-organisation = True
 
 
 # функция создания поддиректории
@@ -212,13 +211,11 @@ def procedure_archiving(procedure_number):
     for from_location, to_location in archive_locations_from_and_to:
         # если возникла ошибка OSError: [Errno 36] File name too long
         try:
-#            copyfile(from_location, to_location)
-            print(from_location, to_location)
+            copyfile(from_location, to_location)
         except OSError as exc:
             if exc.errno == 36:
-#                to_location = get_rand_name(to_location)
-#                copyfile(from_location, to_location)
-                print(from_location, to_location)
+                to_location = get_rand_name(to_location)
+                copyfile(from_location, to_location)
             else:
                 raise  # re-raise previously caught exception
 
@@ -301,8 +298,7 @@ if __name__ == '__main__':
                         if archive.endswith('.zip') and isfile(join(work_dir, archive))]
         archive_list_length = len(archive_list)
         for archive in archive_list:
-#            remove(archive)
-            print(archive)
+            remove(archive)
         print('Удалено %(archive_list_length)s архивов' % vars())
         exit(0)
 
