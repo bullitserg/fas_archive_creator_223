@@ -4,7 +4,7 @@ from os import listdir, chdir, mkdir, remove
 from os.path import normpath, isfile, join, split, splitext, getsize
 from ets.ets_xml_worker import found_procedure_223_db
 from ets.ets_mysql_lib import MysqlConnection as Mc, get_query_top
-from ets.etsExcelCreator import Excel
+from ets.ets_excel_creator import Excel
 from random import randint
 from shutil import copyfile, make_archive, rmtree
 from time import sleep
@@ -12,11 +12,11 @@ from itertools import count
 import re
 import argparse
 
-PROGNAME = 'FAS archive creator'
-DESCRIPTION = 'Скрипт для формирования архивов по процедурам'
-VERSION = '2.0'
+PROGNAME = 'FAS archive creator 223'
+DESCRIPTION = 'Скрипт для формирования архивов по процедурам 223'
+VERSION = '1.0'
 AUTHOR = 'Belim S.'
-RELEASE_DATE = '2017-08-23'
+RELEASE_DATE = '2018-06-27'
 
 DATA_PROCESSED = 0
 
@@ -179,11 +179,11 @@ def procedure_archiving(procedure_number):
     if offers_data:
         offer_top = get_query_top(get_offers_data_query % vars())
         excel_file = Excel()
-        excel_list = excel_file.createList(sheetName='Ценовые предложения')
-        excel_list.setNumeral(6)
-        excel_list.writeDataFromIter(offers_data, offer_top)
-        excel_list.setDefaultColumnWidth(150)
-        excel_file.saveFile(saveDir=work_procedures_dir, fileName='Ценовые предложения участников ' + procedure_number)
+        excel_list = excel_file.create_list(sheet_name='Ценовые предложения')
+        excel_list.set_numeral(6)
+        excel_list.write_data_from_iter(offers_data, offer_top)
+        excel_list.set_default_column_width(150)
+        excel_file.save_file(save_dir=work_procedures_dir, file_name='Ценовые предложения участников ' + procedure_number)
 
     # вычленяем из allData листы с директориями для формирования пути
     archive_locations = [archiveLocationDirParts[1] for archiveLocationDirParts in all_data]
