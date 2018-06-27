@@ -80,10 +80,9 @@ def procedure_archiving(procedure_number):
         print('Процедура %(procedure_number)s не найдена' % vars())
         return
 
-    print(db_info['name'])
     cn = Mc(connection=db_info['connection'])
     print('Обработка %(procedure_number)s начата' % vars())
-
+    print(db_info['name'])
     # проверяем, существует ли уже архив для данной процедуры
     archive_procedures_list = [archive[0:11] for archive in listdir(work_dir) if archive.endswith('.zip')
                                and isfile(join(work_dir, archive))]
