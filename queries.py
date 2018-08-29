@@ -12,7 +12,7 @@ FROM request r
     AND l.actualId IS NULL
     AND l.archive = 0
   JOIN procedures p
-    ON p.id = r.lotId
+    ON p.id = l.procedureId
     AND p.active = 1
     AND p.actualId IS NULL
     AND p.archive = 0
