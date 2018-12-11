@@ -13,10 +13,19 @@ import re
 import argparse
 
 PROGNAME = 'FAS archive creator 223'
-DESCRIPTION = 'Скрипт для формирования архивов по процедурам 223'
-VERSION = '1.0'
+DESCRIPTION = '''Скрипт для формирования архивов по процедурам 223
+[x] 223zk
+[x] 223zp
+[x] 223ea1
+[x] 223ea2
+[x] 223ek
+[x] 223smsp_ea (без сведений о ЦП)
+[x] 223smsp_ek (без сведений о ЦП)
+[x] 223smsp_zk (без сведений о ЦП)
+[x] 223smsp_zp (без сведений о ЦП)'''
+VERSION = '1.1'
 AUTHOR = 'Belim S.'
-RELEASE_DATE = '2018-06-27'
+RELEASE_DATE = '2018-12-11'
 
 DATA_PROCESSED = 0
 
@@ -172,16 +181,17 @@ def procedure_archiving(procedure_number):
         data[2] = re.sub(r'(\(|\)|\[|\])', '_', data[2])
 
     # собираем excel файл с ценовыми предложениями (если они есть)
-    with cn.open():
-        offers_data = list(cn.execute_query(get_offers_data_query % vars()))
-    if offers_data:
-        offer_top = get_query_top(get_offers_data_query % vars())
-        excel_file = Excel()
-        excel_list = excel_file.create_list(sheet_name='Ценовые предложения')
-        excel_list.set_numeral(6)
-        excel_list.write_data_from_iter(offers_data, offer_top)
-        excel_list.set_default_column_width(150)
-        excel_file.save_file(save_dir=work_procedures_dir, file_name='Ценовые предложения участников ' + procedure_number)
+    if db_info['db'] not in ['223smsp_ea', '223smsp_ek', '223smsp_zk', '223smsp_zp']:
+        with cn.open():
+            offers_data = list(cn.execute_query(get_offers_data_query % vars()))
+        if offers_data:
+            offer_top = get_query_top(get_offers_data_query % vars())
+            excel_file = Excel()
+            excel_list = excel_file.create_list(sheet_name='Ценовые предложения')
+            excel_list.set_numeral(6)
+            excel_list.write_data_from_iter(offers_data, offer_top)
+            excel_list.set_default_column_width(150)
+            excel_file.save_file(save_dir=work_procedures_dir, file_name='Ценовые предложения участников ' + procedure_number)
 
     # вычленяем из allData листы с директориями для формирования пути
     archive_locations = [archiveLocationDirParts[1] for archiveLocationDirParts in all_data]
