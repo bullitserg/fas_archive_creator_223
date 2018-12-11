@@ -45,6 +45,15 @@ document_dirs = {'s223:///': '/upl/srv/www/sectionks-archive/data/upload/',
                  }
 
 
-
+document_dirs_smsp = {'s223:///': '/upl/srv/www/sectionks-archive/data/upload/',
+                      'fz94:///': '/upl/srv/www/auction-archive/public/upload/',
+                      'fz94_1:///': '/upl/srv/www/auction-archive/public/upload1/',
+                      'fz94_2:///': '/upl/srv/www/auction-archive-upload2/public/upload2/',
+                      'fz94_5:///': '/upl/srv/www/auction-archive-upload5/public/upload5/',
+                      'fz94_7:///': '/upl/srv/www/auction/public/upload7/',
+                      'local:///': '/upl/srv/www/223/smsp/',
+                      'local3:///': '/upl/srv/www/sectionks-archive/data/upload3/',
+                      'local6:///': '/upl/srv/www/sectionks/data/upload6/'
+                      }
 
 

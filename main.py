@@ -41,14 +41,20 @@ def create_dir(name):
 
 
 # функция приводит в порядок путь до файлов соответствии со словарем documentDirs
-def found_location_dir(data, dir_column):
+def found_location_dir(smsp, data, dir_column):
     # data - данные выборки из запроса
     # dirColumn - номер колонки в данных, которая содержит путь
     out_list = []
     for link in data:
         link = list(link)
-        for prefix in document_dirs.keys():
-            changing = re.subn(prefix, document_dirs[prefix], link[dir_column])
+
+        if smsp:
+            document_d = document_dirs_smsp
+        else:
+            document_d = document_dirs
+
+        for prefix in document_d.keys():
+            changing = re.subn(prefix, document_d[prefix], link[dir_column])
             if changing[1] == 1:
                 link[dir_column] = changing[0]
                 out_list.append(link)
@@ -90,6 +96,8 @@ def procedure_archiving(procedure_number):
         return
 
     cn = Mc(connection=db_info['connection'])
+    is_smsp = db_info['db'] in ['223smsp_ea', '223smsp_ek', '223smsp_zk', '223smsp_zp']
+
     print('Обработка %(procedure_number)s начата' % vars())
     print(db_info['name'])
     # проверяем, существует ли уже архив для данной процедуры
@@ -115,7 +123,7 @@ def procedure_archiving(procedure_number):
     with cn.open():
         requests_data = cn.execute_query(get_requests_data_query % vars())
 
-    requests_data = found_location_dir(requests_data, 5)
+    requests_data = found_location_dir(is_smsp, requests_data, 5)
 
     # находим для каждого файла составляющие пути, куда будем класть данный файл в архив
     # собираем их в лист allData
@@ -129,7 +137,7 @@ def procedure_archiving(procedure_number):
     chdir(work_procedures_dir)
     with cn.open():
         protocols_data = cn.execute_query(get_protocols_data_query % vars())
-    protocols_data = found_location_dir(protocols_data, 4)
+    protocols_data = found_location_dir(is_smsp, protocols_data, 4)
 
     # находим для каждого файла составляющие пути, куда будем класть данный файл в архив
     # собираем их в лист allData
@@ -143,7 +151,7 @@ def procedure_archiving(procedure_number):
     chdir(work_procedures_dir)
     with cn.open():
         features_data = cn.execute_query(get_features_data_query % vars())
-    features_data = found_location_dir(features_data, 5)
+    features_data = found_location_dir(is_smsp, features_data, 5)
 
     # находим для каждого файла составляющие пути, куда будем класть данный файл в архив
     # собираем их в лист allData
@@ -159,7 +167,7 @@ def procedure_archiving(procedure_number):
         chdir(work_procedures_dir)
         with cn.open():
             organisation_data = cn.execute_query(get_organisation_data_query % vars())
-        organisation_data = found_location_dir(organisation_data, 5)
+        organisation_data = found_location_dir(is_smsp, organisation_data, 5)
 
         # находим для каждого файла составляющие пути, куда будем класть данный файл в архив
         # собираем их в лист allData
