@@ -13,15 +13,15 @@ import re
 import argparse
 
 PROGNAME = 'FAS archive creator 223'
-DESCRIPTION = '''Скрипт для формирования архивов по процедурам 223
-[x] 223zk
-[x] 223zp
-[x] 223ea1
-[x] 223ea2
-[x] 223ek
-[x] 223smsp_ea (без сведений о ЦП)
-[x] 223smsp_ek (без сведений о ЦП)
-[x] 223smsp_zk (без сведений о ЦП)
+DESCRIPTION = '''Скрипт для формирования архивов по процедурам 223\n
+[x] 223zk\n
+[x] 223zp\n
+[x] 223ea1\n
+[x] 223ea2\n
+[x] 223ek\n
+[x] 223smsp_ea (без сведений о ЦП)\n
+[x] 223smsp_ek (без сведений о ЦП)\n
+[x] 223smsp_zk (без сведений о ЦП)\n
 [x] 223smsp_zp (без сведений о ЦП)'''
 VERSION = '1.1'
 AUTHOR = 'Belim S.'
